@@ -29,12 +29,12 @@ jobs:
         python -m pip install black isort flake8 mypy pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Check code format with black
-      run: black --check --diff --line-length 79 photo_backup tests
+      run: black --check --diff --line-length 79 .
     - name: Check the order of import
-      run: isort --check --diff --profile black photo_backup tests
+      run: isort --check --diff --profile black .
     - name: Lint with flake8
       run: |
-        flake8 --max-line-length 79 --ignore E402 --max-complexity 10 --max-complexity 7 photo_backup tests
+        flake8 --max-line-length 79 --ignore E402 --max-complexity 10 --max-complexity 7 .
     - name: Check type annotation with mypy
       run: mypy --ignore-missing-imports .
     - name: Test with pytest
