@@ -4,7 +4,7 @@ from typing import List, Tuple
 import pytest
 from PIL import Image
 
-from photo_backup.exif import check_datetime_format, Exif, extract_exif
+from photo_backup.exif import Exif, check_datetime_format, extract_exif
 
 
 class TestCheckDatetimeFormat:
