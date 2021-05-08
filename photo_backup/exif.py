@@ -2,7 +2,7 @@ import re
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Dict
+from typing import Dict, Optional
 
 from PIL import Image
 
@@ -21,7 +21,7 @@ class ExifTag(Enum):
 @dataclass
 class Exif(object):
 
-    datetime_original: datetime = None
+    datetime_original: Optional[datetime] = None
 
     def __init__(self, exif: Dict[int, str]):
         self.set_datetime_original(exif[ExifTag.DATETIME_ORIGINAL.value])
@@ -33,6 +33,8 @@ class Exif(object):
         self.datetime_original = datetime.strptime(value, "%Y:%m:%d %H:%M:%S")
 
     def make_filename(self) -> str:
+        if self.datetime_original is None:
+            raise ValueError("datetime_original is None.")
         return self.datetime_original.strftime("%Y%m%d%H%M%S")
 
 
