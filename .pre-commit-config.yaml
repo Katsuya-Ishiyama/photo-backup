@@ -8,5 +8,6 @@ repos:
     -   id: end-of-file-fixer
     -   id: check-yaml
     -   id: check-added-large-files
+        args: [--maxkb, "2000"]
     -   id: no-commit-to-branch
         args: [--branch, main]
