@@ -39,4 +39,5 @@ jobs:
       run: mypy --ignore-missing-imports .
     - name: Test with pytest
       run: |
+        pip install -e .
         pytest tests
