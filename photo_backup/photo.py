@@ -1,9 +1,7 @@
 from pathlib import Path
 
-import boto3
 from PIL import Image
 
-import photo_backup.consts as consts
 from photo_backup.exif import extract_exif
 
 
@@ -23,13 +21,3 @@ class Photo(object):
         filename = datetime_original.strftime("%Y%m%d%H%M%S")
         extension = self.extract_file_extension()
         return f"{year}/{month}/{filename}{extension}"
-
-    def upload(self):
-        s3 = boto3.client("s3")
-        src_path = str(self.path)
-        dst_path = self.create_dst_path()
-        s3.upload_file(
-            src_path,
-            consts.S3_BUCKET,
-            dst_path,
-        )
