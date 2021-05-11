@@ -1,13 +1,14 @@
 from abc import ABC, abstractmethod
+from pathlib import Path
 
 import boto3
 
-from photo_backup.photo import Photo
+S3Uri = str
 
 
 class Uploader(ABC):
     @abstractmethod
-    def upload(self, photo: Photo):
+    def upload(self, src: Path, dst: S3Uri):
         pass
 
 
@@ -15,12 +16,10 @@ class S3Uploader(Uploader):
     def __init__(self, bucket: str):
         self.bucket = bucket
 
-    def upload(self, photo: Photo):
+    def upload(self, src: Path, dst: S3Uri):
         s3 = boto3.client("s3")
-        src_path = str(photo.path)
-        dst_path = photo.create_dst_path()
         s3.upload_file(
-            src_path,
+            str(src),
             self.bucket,
-            dst_path,
+            dst,
         )
