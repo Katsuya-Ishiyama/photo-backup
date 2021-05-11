@@ -2,8 +2,9 @@ from datetime import datetime
 from pathlib import Path
 
 import pytest
-from photo_backup.photo import Photo
 from PIL import Image
+
+from photo_backup.photo import Photo
 
 
 class TestPhotoInit:

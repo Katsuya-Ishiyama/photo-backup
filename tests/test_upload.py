@@ -1,4 +1,5 @@
 import boto3
+
 import photo_backup.consts as consts
 from photo_backup.photo import Photo
 from photo_backup.upload import S3Uploader
