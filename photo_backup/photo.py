@@ -1,8 +1,10 @@
 from pathlib import Path
+from typing import List
 
 from PIL import Image
 
 from photo_backup.exif import extract_exif
+from photo_backup.upload import Uploader
 
 
 class Photo(object):
@@ -21,3 +23,19 @@ class Photo(object):
         filename = datetime_original.strftime("%Y%m%d%H%M%S")
         extension = self.extract_file_extension()
         return f"{year}/{month}/{filename}{extension}"
+
+
+class Photos(object):
+    def __init__(self, uploader: Uploader):
+        self.uploader = uploader
+        self.photos: List[Photo] = []
+
+    def append(self, photo: Photo):
+        self.photos.append(photo)
+        return self
+
+    def upload(self):
+        for photo in self.photos:
+            src = photo.path
+            dst = photo.create_dst_path()
+            self.uploader.upload(src, dst)
