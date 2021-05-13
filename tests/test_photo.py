@@ -88,27 +88,37 @@ class TestPhotosAppend:
 
 
 class TestPhotosUpload:
-    def test_upload(self):
+    def test_upload(self, folder_test, mocker):
         photos = Photos(S3Uploader(consts.S3_BUCKET))
 
         photo1 = Photo("data/images/IMG_9235.jpeg")
+        expected_filename1 = f"{folder_test}/2020/08/20200813140708.jpeg"
+        mocker.patch.object(
+            photo1, "create_dst_path", side_effect=lambda: expected_filename1
+        )
         photos.append(photo1)
 
         photo2 = Photo("data/images/SOVK6553.jpeg")
+        expected_filename2 = f"{folder_test}/2020/10/20201012131028.jpeg"
+        mocker.patch.object(
+            photo2, "create_dst_path", side_effect=lambda: expected_filename2
+        )
         photos.append(photo2)
 
         photos.upload()
 
         s3 = boto3.client("s3")
-        response = s3.list_objects_v2(Bucket=consts.S3_BUCKET, Prefix="2020")
+        response = s3.list_objects_v2(
+            Bucket=consts.S3_BUCKET, Prefix=f"{folder_test}/2020"
+        )
         uploaded_filename = [
             content["Key"] for content in response["Contents"]
         ]
         uploaded_filename.sort()
 
         expected = [
-            "2020/08/20200813140708.jpeg",
-            "2020/10/20201012131028.jpeg",
+            expected_filename1,
+            expected_filename2,
         ]
 
         assert uploaded_filename == expected
@@ -119,7 +129,7 @@ class TestPhotosUpload:
                 "s3",
                 "rm",
                 "--recursive",
-                f"s3://{consts.S3_BUCKET}/2020/",
+                f"s3://{consts.S3_BUCKET}/test/",
             ]
         )
         response.check_returncode()
