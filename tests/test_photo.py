@@ -104,6 +104,8 @@ class TestPhotosUpload:
         uploaded_filename = [
             content["Key"] for content in response["Contents"]
         ]
+        uploaded_filename.sort()
+
         expected = [
             "2020/08/20200813140708.jpeg",
             "2020/10/20201012131028.jpeg",
