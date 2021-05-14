@@ -48,3 +48,6 @@ jobs:
         pip install -e .
         cd tests
         pytest -v .
+    - name: Debug
+      if: ${{ always() }}
+      uses: mxschmitt/action-tmate@v3
