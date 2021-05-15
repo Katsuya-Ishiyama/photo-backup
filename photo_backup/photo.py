@@ -3,8 +3,8 @@ from typing import List
 
 from PIL import Image
 
-from photo_backup.exif import extract_exif
-from photo_backup.upload import Uploader
+from .exif import extract_exif
+from .upload import Uploader
 
 
 class Photo(object):
