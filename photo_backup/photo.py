@@ -10,8 +10,7 @@ from .upload import Uploader
 class Photo(object):
     def __init__(self, path: str):
         self.path = Path(path)
-        self.photo = Image.open(path)
-        self.exif = extract_exif(self.photo)
+        self.exif = extract_exif(Image.open(path))
 
     def extract_file_extension(self) -> str:
         return self.path.suffix

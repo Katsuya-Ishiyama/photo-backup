@@ -4,7 +4,6 @@ from pathlib import Path
 
 import boto3
 import pytest
-from PIL import Image
 
 import photo_backup.consts as consts
 from photo_backup.photo import Photo, Photos
@@ -23,11 +22,6 @@ class TestPhotoInit:
         _path, _photo = photo
         expected = Path(_path)
         assert _photo.path == expected
-
-    def test_init_photo(self, photo):
-        _path, _photo = photo
-        expected = Image.open(_path)
-        assert _photo.photo == expected
 
     def test_init_exif(self, photo):
         _path, _photo = photo
