@@ -3,7 +3,9 @@ from datetime import datetime
 from pathlib import Path
 
 import boto3
+import imagehash
 import pytest
+from PIL import Image
 
 import photo_backup.consts as consts
 from photo_backup.photo import Photo, Photos
@@ -22,6 +24,12 @@ class TestPhotoInit:
         _path, _photo = photo
         expected = Path(_path)
         assert _photo.path == expected
+
+    def test_init_hash(self, photo):
+        _path, _photo = photo
+        img = Image.open(str(_path))
+        expected = imagehash.phash(img)
+        assert _photo.hash == expected
 
     def test_init_exif(self, photo):
         _path, _photo = photo
